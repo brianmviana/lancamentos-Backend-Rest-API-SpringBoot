@@ -5,10 +5,12 @@ import java.net.URI;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.context.ApplicationListener;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.brianmviana.lancamentos.api.event.RecursoCriadoEvent;
 
+@Component
 public class RecursoCriadoListener implements ApplicationListener<RecursoCriadoEvent>{
 
 	@Override
@@ -16,13 +18,15 @@ public class RecursoCriadoListener implements ApplicationListener<RecursoCriadoE
 		HttpServletResponse response = recursoCriadoEvent.getResponse();
 		Long codigo = recursoCriadoEvent.getCodigo();
 		
-		AdicionarHeaderLocation(response, codigo);
+		adicionarHeaderLocation(response, codigo);
 	}
 
-	private void AdicionarHeaderLocation(HttpServletResponse response, Long codigo) {
+	private void adicionarHeaderLocation(HttpServletResponse response, Long codigo) {
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{codigo}")
 				.buildAndExpand(codigo).toUri();
 			response.setHeader("Location", uri.toASCIIString());
 	}
 
 }
+
+
